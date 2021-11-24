@@ -24,6 +24,12 @@ export default {
     "~/assets/app.scss"
   ],
 
+  loading: {
+    color: '#a7ffb2',
+    height: '3px',
+    failedColor: 'blue'
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
@@ -45,10 +51,18 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    "vue-toastification/nuxt"
   ],
 
+  toast: {
+    position: 'bottom-right',
+    timeout: 3000,
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL, 
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

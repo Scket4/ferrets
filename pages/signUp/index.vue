@@ -1,7 +1,7 @@
 <template>
   <div class="signUp">
     <h5 class="heading">Регистрация</h5>
-    <v-form id="signUp" class="form" @submit.prevent="signUp">
+    <v-form id="signUp" ref="form" class="form" @submit.prevent="register">
       <label v-for="field in fields" :key="field.id">
         <span class="input__label">{{ field.label }}</span>
         <v-text-field
@@ -9,6 +9,7 @@
           :placeholder="field.placeholder"
           outlined
           :type="field.password ? (field.show ? 'text' : 'password') : 'text'"
+          tabindex="1"
           :append-icon="
             field.password ? (field.show ? 'mdi-eye' : 'mdi-eye-off') : null
           "
@@ -26,8 +27,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   layout: 'auth',
+  loading: false,
   data: () => ({
     email: '',
     username: '',
@@ -37,8 +41,17 @@ export default {
   }),
   mounted() {
     this.setFields()
+
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
   },
+
   methods: {
+    ...mapActions({
+      signUp: 'auth/signUp',
+    }),
     setFields() {
       this.fields = [
         {
@@ -98,8 +111,34 @@ export default {
     changeModel(val, model) {
       this[model] = val
     },
-    signUp() {
-      // console.log(this.email, this.username, this.password, this.repeatPassword);
+    async register() {
+      this.$nuxt.$loading.start()
+      const isValidate = this.$refs.form.validate()
+
+      if (!isValidate) {
+        this.$toast.error('Заполните все поля правильно')
+        setTimeout(() => {
+          this.$nuxt.$loading.finish()
+        }, 500)
+        return
+      }
+
+      try {
+        const result = await this.signUp({
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        })
+
+        if (result) {
+          this.$toast.success('Добро пожаловать!')
+          this.$router.push('/profile')
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.$nuxt.$loading.finish()
+      }
     },
   },
 }

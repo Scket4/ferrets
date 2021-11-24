@@ -16,6 +16,10 @@
 
   .form {
     width: 320px;
+
+    @media all and (max-width: 350px) {
+      width: 95%;
+    }
   }
 
   .input {
