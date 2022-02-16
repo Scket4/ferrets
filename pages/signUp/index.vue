@@ -141,7 +141,7 @@ export default {
       }
     },
   },
-}
+}ß
 </script>
 
 <style lang="scss" scoped>
