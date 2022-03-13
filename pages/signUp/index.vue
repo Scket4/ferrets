@@ -1,5 +1,5 @@
 <template>
-  <div class="signUp">
+  <div class="container">
     <h5 class="heading">Регистрация</h5>
     <v-form id="signUp" ref="form" class="form" @submit.prevent="register">
       <label v-for="field in fields" :key="field.id">
@@ -7,19 +7,23 @@
         <v-text-field
           v-model="field.model"
           :placeholder="field.placeholder"
-          outlined
           :type="field.password ? (field.show ? 'text' : 'password') : 'text'"
-          tabindex="1"
           :append-icon="
             field.password ? (field.show ? 'mdi-eye' : 'mdi-eye-off') : null
           "
           :rules="field.rules"
+          outlined
+          tabindex="1"
           class="input"
           @click:append="field.show = !field.show"
           @change="changeModel(field.model, field.name)"
         ></v-text-field>
       </label>
-      <v-btn color="#ffd6ad" class="button" large for="signUp" type="submit">
+      <div class="actions">
+        <p>Уже зарегистированы?</p>
+        <a href="/signIn">Вход</a>
+      </div>
+      <v-btn class="button" large for="signUp" type="submit">
         Регистрация</v-btn
       >
     </v-form>
@@ -39,15 +43,9 @@ export default {
     repeatPassword: '',
     fields: [],
   }),
-  mounted() {
+  created() {
     this.setFields()
-
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      setTimeout(() => this.$nuxt.$loading.finish(), 500)
-    })
   },
-
   methods: {
     ...mapActions({
       signUp: 'auth/signUp',
@@ -98,7 +96,7 @@ export default {
       return !!value || 'Обязательное поле'
     },
     valPassword(value) {
-      return value.length > 8 || 'Минимум 8 знаков'
+      return value.length > 7 || 'Минимум 8 знаков'
     },
     valRepeatPassword(value) {
       return value === this.password || 'Пароли не совпадают'
@@ -141,9 +139,9 @@ export default {
       }
     },
   },
-}ß
+}
 </script>
 
 <style lang="scss" scoped>
-@import './signUp.scss';
+@import '../../css/pages/auth.scss';
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <v-app>
-  
-  </v-app>
+  <router-view></router-view>
 </template>
 
 <script>
-export default {}
+export default {
+  middleware: 'auth',
+}
 </script>

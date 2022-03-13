@@ -1,10 +1,10 @@
 export default function ({ $axios, store, $toast }) {
   $axios.interceptors.request.use((config) => {
-    // const token = store.getters['auth/token'];
+    const token = store.getters['auth/getToken'];
 
-    // if (token) {
-    //   $axios.setToken(store.getters['auth/token'], 'Bearer');
-    // }
+    if (token) {
+      $axios.setToken(store.getters['auth/getToken'], 'Bearer');
+    }
 
     return config;
   });

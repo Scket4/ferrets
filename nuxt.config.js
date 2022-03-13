@@ -32,6 +32,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/vuex-cookies'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,13 +46,28 @@ export default {
     '@nuxtjs/vuetify',
   ],
 
+  router: {
+    middleware: 'auth'
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://api.example.com/:path*',
+      },
+    ]
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    "vue-toastification/nuxt"
+    "vue-toastification/nuxt",
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt',
   ],
 
   toast: {

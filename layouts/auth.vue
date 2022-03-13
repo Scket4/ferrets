@@ -8,7 +8,9 @@
           <h1 class="auth__title">
             Приветствуем в <span class="auth__title--name">Ferrets</span>!
           </h1>
-          <p class="auth__description">Социальная сеть для дузей и знакомых.<br>Чтобы быть ближе</p>
+          <p class="auth__description">
+            Социальная сеть для дузей и знакомых.<br />Чтобы быть ближе
+          </p>
         </div>
         <div class="auth__form">
           <router-view></router-view>
@@ -19,9 +21,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  middleware: 'auth',
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './auth';
 </style>
