@@ -37,7 +37,7 @@ export default {
   layout: 'auth',
   loading: false,
   data: () => ({
-    email: '',
+    // email: '',
     username: '',
     password: '',
     repeatPassword: '',
@@ -61,15 +61,15 @@ export default {
           rules: [this.valRequired],
           id: 1,
         },
-        {
-          name: 'email',
-          model: this.email,
-          placeholder: 'forret@gmail.com',
-          label: 'Почта',
-          password: false,
-          rules: [this.valRequired, this.valEmail],
-          id: 2,
-        },
+        // {
+        //   name: 'email',
+        //   model: this.email,
+        //   placeholder: 'forret@gmail.com',
+        //   label: 'Почта',
+        //   password: false,
+        //   rules: [this.valRequired, this.valEmail],
+        //   id: 2,
+        // },
         {
           name: 'password',
           model: this.password,
@@ -124,13 +124,15 @@ export default {
       try {
         const result = await this.signUp({
           username: this.username,
-          email: this.email,
+          // email: this.email,
           password: this.password,
         })
 
-        if (result) {
+        if (result?.access_token) {
           this.$toast.success('Добро пожаловать!')
           this.$router.push('/profile')
+        } else {
+          this.$toast.error('Произошла ошибка')
         }
       } catch (err) {
         console.error(err)

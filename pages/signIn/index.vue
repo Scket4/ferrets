@@ -31,9 +31,7 @@
         <p>Еще не зарегистированы?</p>
         <nuxt-link to="/signUp">Регистрация</nuxt-link>
       </div>
-      <v-btn class="button" large for="signIn" type="submit">
-        Вход</v-btn
-      >
+      <v-btn class="button" large for="signIn" type="submit"> Вход</v-btn>
     </v-form>
   </div>
 </template>
@@ -50,7 +48,7 @@ export default {
     username: '',
   }),
   methods: {
-     ...mapActions({
+    ...mapActions({
       signIn: 'auth/signIn',
     }),
     valRequired(value) {
@@ -77,11 +75,11 @@ export default {
           password: this.password,
         })
 
-        if (result) {
+        if (result?.access_token) {
           this.$toast.success('Добро пожаловать!')
           this.$router.push('/profile')
         } else {
-          this.$toast.error('Проверьте данные!')
+          this.$toast.error('Произошла ошибка')
         }
       } catch (err) {
         console.error(err)
