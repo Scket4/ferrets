@@ -23,9 +23,9 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/app.scss'],
+  css: ['@/assets/app.scss'],
 
-  loading: '~/components/Loading/Loading.vue',
+  loading: '@/components/Loading/Loading.vue',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/vuex-cookies', '@/plugins/axios', { src: '@/plugins/socket.js', ssr: false}],
@@ -102,7 +102,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['@/assets/variables.scss'],
     theme: {
       themes: {
         dark: {
