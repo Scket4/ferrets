@@ -25,7 +25,8 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/app.scss'],
 
-  loading: './components/Loading/Loading.vue',
+  // восстановить
+  // loading: './components/Loading/Loading.vue',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/vuex-cookies', '@/plugins/axios', { src: '@/plugins/socket.js', ssr: false}],
