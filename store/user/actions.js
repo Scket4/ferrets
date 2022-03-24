@@ -30,19 +30,10 @@ export default {
       },
     })
 
-    if (data.usernmae) {
+    if (data.username) {
       commit('setMyUserData', data)
     }
   },
-
-  // async updateUserData({ commit }, newData) {
-  //   const data = await this.$axios.$post('user/update', newData)
-
-  //   if (data.usernmae) {
-  //     // надо ли нам  userdata
-  //     commit('setUserData', data)
-  //   }
-  // },
 
   async toggleLike({ commit }, likeInfo) {
     const data = await this.$axios.$post('user/like', likeInfo)
