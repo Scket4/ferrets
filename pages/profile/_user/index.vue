@@ -119,10 +119,6 @@ export default {
       this.$nuxt.$loading.finish()
     })
   },
-  beforeDestroy() {
-    this.$socket.off('userStatus')
-    this.$socket.off('setLikeNotification')
-  },
   methods: {
     ...mapActions({
       getUserData: 'user/getUserData',
