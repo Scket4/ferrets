@@ -41,6 +41,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'SignIn',
+  loading: true,
   layout: 'auth',
   data: () => ({
     showPassword: false,

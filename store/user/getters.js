@@ -1,3 +1,4 @@
 export default {
-  getUserData: (state) => state.userData 
+  getUserData: (state) => state.userData ,
+  getMyUserData: (state) => state.myUserData
 }

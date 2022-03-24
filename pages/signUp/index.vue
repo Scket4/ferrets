@@ -35,7 +35,7 @@ import { mapActions } from 'vuex'
 
 export default {
   layout: 'auth',
-  loading: false,
+  loading: true,
   data: () => ({
     // email: '',
     username: '',

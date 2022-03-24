@@ -1,15 +1,27 @@
 <template>
-  <div v-if="isVisible" class="overlay" :class="{'active': loading}">
-      <div class="spinner"></div>
+  <div v-if="isVisible" class="overlay" :class="{ active: loading }">
+    <div class="spinner"></div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'Loading',
   data: () => ({
     loading: false,
-    isVisible: false
+    isVisible: false,
   }),
+  watch: {
+    loading(val) {
+      if (!val) {
+        setTimeout(() => {
+          this.isVisible = val
+        }, 500)
+        return
+      }
+      this.isVisible = val
+    },
+  },
   methods: {
     start() {
       this.loading = true
@@ -18,17 +30,6 @@ export default {
       this.loading = false
     },
   },
-  watch: {
-    loading(val) {
-      if (!val) {
-        setTimeout(() => {
-          this.isVisible = val
-        }, 500);
-        return
-      }
-      this.isVisible = val
-    }
-  }
 }
 </script>
 
@@ -44,7 +45,7 @@ export default {
   justify-content: center;
   z-index: -2;
   opacity: 0;
-  transition: all ease .5s;
+  transition: all ease 0.5s;
 }
 
 .active {

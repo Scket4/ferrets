@@ -4,22 +4,33 @@
     <v-form id="settings" ref="form" class="form" @submit.prevent="sendNewData">
       <label>
         <span>Имя</span>
-        <v-text-field v-model="name" />
+        <v-text-field v-model="name" clearable />
       </label>
       <label>
         <span>Фамилия</span>
-        <v-text-field v-model="surname" />
+        <v-text-field v-model="surname" clearable />
       </label>
       <label>
         <span>О тебе</span>
         <v-textarea
           name="about"
           v-model="about"
+          rows="2"
+          row-height="15"
+          clearable
         ></v-textarea>
       </label>
+      <label>
+        <span>Фото профиля</span>
+        <v-file-input
+          truncate-length="15"
+          @change="uploadImage"
+          hide-input
+        ></v-file-input>
+      </label>
+      <img ref="photo" alt="" />
       <div class="actions">
         <v-btn class="button" for="settings" type="submit"> Сохранить</v-btn>
-        <v-btn class="button" @click="$router.push('profile')">В профиль</v-btn>
       </div>
     </v-form>
   </div>
@@ -34,42 +45,51 @@ export default {
     name: '',
     surname: '',
     about: '',
+    photo: '',
   }),
   computed: {
     userData() {
-      return this.$store.getters['user/getUserData']
+      return this.$store.getters['user/getMyUserData']
     },
   },
-  async mounted() {
-    await this.getUserData()
-
+  mounted() {
     this.name = this.userData.name || ''
     this.surname = this.userData.surname || ''
     this.about = this.userData.about || ''
   },
   watch: {
     userData(val) {
-      this.name = val.name | ''
+      this.name = val.name || ''
       this.surname = val.surname || ''
       this.about = val.about || ''
     },
   },
   methods: {
     ...mapActions({
-      getUserData: 'user/getUserData',
-      updateUserData: 'user/updateUserData',
+      updateMyUserData: 'user/updateMyUserData',
     }),
     async sendNewData() {
       this.$nuxt.$loading.start()
       try {
-        await this.updateUserData({
+        await this.updateMyUserData({
           name: this.name,
           surname: this.surname,
-          about: this.about
+          about: this.about,
         })
+        this.$toast.success('Данные изменены!')
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.$nuxt.$loading.finish()
+      }
+    },
+    async uploadImage(event) {
+      const formData = new FormData()
+      formData.append('file', event)
 
-        await this.getUserData()
-
+      this.$nuxt.$loading.start()
+      try {
+        await this.updateMyUserData(formData)
         this.$toast.success('Данные изменены!')
       } catch (error) {
         console.error(error)
@@ -84,6 +104,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   padding: 100px;
+
+  @media (max-width: 650px) {
+    padding: 40px;
+  }
 }
 
 .heading {

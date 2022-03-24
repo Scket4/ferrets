@@ -30,5 +30,6 @@ export default {
   logout({ commit }) {
     commit('setAuth', false)
     commit('setToken', null)
+    commit('setMyUserData', {})
   },
 }

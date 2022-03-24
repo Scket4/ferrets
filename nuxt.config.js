@@ -8,7 +8,7 @@ export default {
     port: 3000,
     host: '0.0.0.0',
   },
-  
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - ferrets',
@@ -25,10 +25,10 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/app.scss'],
 
-  loading: '~/components/loading/loading.vue',
+  loading: '~/components/Loading/Loading.vue',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/vuex-cookies', '@/plugins/axios'],
+  plugins: ['@/plugins/vuex-cookies', '@/plugins/axios', { src: '@/plugins/socket.js', ssr: false}],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -63,7 +63,25 @@ export default {
     'vue-toastification/nuxt',
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
+    'nuxt-socket-io',
   ],
+
+  io: {
+    rememberUpgrade: true,
+    sockets: [
+      {
+        name: 'default',
+        url: process.env.BASE_URL || 'http://localhost:4000',
+        default: true,
+        rememberUpgrade: true
+      },
+    ],
+    server: {
+      cors: {
+        origin: '*',
+      },
+    },
+  },
 
   toast: {
     position: 'bottom-right',
@@ -72,7 +90,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL || 'http://localhost:4000',
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
