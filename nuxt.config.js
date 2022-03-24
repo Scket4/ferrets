@@ -5,8 +5,8 @@ export default {
   ssr: true,
 
   server: {
-    port: 3000,
-    host: '0.0.0.0',
+    port: process.env.PORT,
+    host: process.env.HOST,
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -91,7 +91,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:4000',
+    baseURL: process.env.BASE_URL,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
