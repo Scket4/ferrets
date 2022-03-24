@@ -4,8 +4,10 @@
       <div class="header__about" :class="hideAbout ? 'hideAbout' : ''">
         <h2 class="header__about--name">{{ name || username }}</h2>
         <p class="header__about--introduce">знакомьтесь,</p>
+
         <div class="header__about--bio">
           <p class="header__about--me">обо мне</p>
+
           <p class="header__about--text">{{ aboutMe }}</p>
           <div class="header__like">
             <profile-like
@@ -22,6 +24,10 @@
             >
           </div>
         </div>
+        <v-badge
+          class="header__badge"
+          :style="isOnline ? 'background-color: green' : 'background-color: grey'"
+        />
       </div>
     </div>
     <div class="header__photo" :style="`background-image: url(${photoPath})`">
@@ -70,10 +76,14 @@ export default {
         : 'тут основная информация обо мне'
     },
     photoPath() {
-      return this.profileData.profile_photo || ''
+      return this.profileData?.profile_photo || ''
     },
     isLiked() {
       return this.profileData?.profile_likes?.includes(this.myData.username)
+    },
+    isOnline() {
+      if (this.isMyProfile) return true
+      return this.userData?.status?.isOnline
     },
   },
   async mounted() {
@@ -90,6 +100,14 @@ export default {
       }
     })
 
+    this.$socket.on('userStatus', (data) => {
+      if (this.isMyProfile || data.username !== this.username) return
+      this.$store.commit('user/setUserData', {
+        ...this.userData,
+        status: { isOnline: data.status },
+      })
+    })
+
     this.currentUsername = this.$route.params.user
 
     if (!this.isMyProfile) {
@@ -100,6 +118,10 @@ export default {
     this.$nextTick(() => {
       this.$nuxt.$loading.finish()
     })
+  },
+  beforeDestroy() {
+    this.$socket.off('userStatus')
+    this.$socket.off('setLikeNotification')
   },
   methods: {
     ...mapActions({
@@ -148,6 +170,7 @@ export default {
   &__about {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 100%;
     padding-top: 150px;
     padding-right: 75px;
@@ -171,6 +194,8 @@ export default {
       font-weight: 500;
       max-width: 400px;
       text-align: left;
+      display: inline-flex;
+      width: auto;
 
       @media (max-width: 900px) {
         font-size: 36px;
@@ -206,6 +231,20 @@ export default {
       @media (max-width: 900px) {
         font-size: 14px;
       }
+    }
+  }
+
+  &__badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 25px;
+    right: 50px;
+
+    @media (max-width: 650px) {
+      left: 50px;
+      top: 100px;
     }
   }
 
