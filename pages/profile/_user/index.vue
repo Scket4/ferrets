@@ -26,7 +26,9 @@
         </div>
         <v-badge
           class="header__badge"
-          :style="isOnline ? 'background-color: green' : 'background-color: grey'"
+          :style="
+            isOnline ? 'background-color: green' : 'background-color: grey'
+          "
         />
       </div>
     </div>
@@ -91,7 +93,14 @@ export default {
       this.$nuxt.$loading.start()
     })
 
+    this.currentUsername = this.$route.params.user
+
+    if (!this.isMyProfile) {
+      await this.getUserData(this.currentUsername)
+    }
+
     this.$socket.on('setLikeNotification', ({ targetUser }) => {
+      console.log(this.username, targetUser.username, this.isMyProfile)
       if (
         targetUser.username === this.username &&
         targetUser.username !== this.myData.username
@@ -100,6 +109,8 @@ export default {
       }
     })
 
+    console.log(this.username)
+
     this.$socket.on('userStatus', (data) => {
       if (this.isMyProfile || data.username !== this.username) return
       this.$store.commit('user/setUserData', {
@@ -107,12 +118,6 @@ export default {
         status: { isOnline: data.status },
       })
     })
-
-    this.currentUsername = this.$route.params.user
-
-    if (!this.isMyProfile) {
-      await this.getUserData(this.currentUsername)
-    }
 
     this.hideAbout = false
     this.$nextTick(() => {

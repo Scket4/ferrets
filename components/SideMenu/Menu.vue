@@ -44,8 +44,7 @@ export default {
     isOpened: false,
   }),
   watch: {
-    // доделать
-    '$router.path'() {
+    '$route.path'() {
       this.isOpened = false
     }
   }

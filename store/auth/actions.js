@@ -5,6 +5,7 @@ export default {
     if (data.access_token) {
       commit('setAuth', true)
       commit('setToken', data.access_token)
+      commit('user/setMyUserData', data.user, { root: true })
       return data
     }
 
@@ -19,6 +20,7 @@ export default {
     if (data.access_token) {
       commit('setAuth', true)
       commit('setToken', data.access_token)
+      commit('user/setMyUserData', data.user, { root: true })
       return data
     }
 

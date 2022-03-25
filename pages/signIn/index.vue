@@ -77,6 +77,7 @@ export default {
         })
 
         if (result?.access_token) {
+          await this.$socketInit()
           this.$toast.success('Добро пожаловать!')
           this.$router.push('/profile')
         } else {

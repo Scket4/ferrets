@@ -130,6 +130,7 @@ export default {
 
         if (result?.access_token) {
           this.$toast.success('Добро пожаловать!')
+          await this.$socketInit()
           this.$router.push('/profile')
         } else {
           this.$toast.error('Произошла ошибка')
